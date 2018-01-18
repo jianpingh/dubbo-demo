@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- staus:表示log4j自己的日志打印级别, 设置为TRACE可以看到控制台输出log4j的TRACE,DEBUG等信息-->
+<!-- monitorInterval:单位是秒,表示每个多少秒自动检测配置文件的更改,最小的时间间隔为5秒-->
+<Configuration status="WARN" monitorInterval="30">
+    <Appenders>
+        <Console name="Console" target="SYSTEM_OUT">
+            <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %-5level %l - %msg%n"/>
+        </Console>
+
+        <RollingFile name="RollingFile" fileName="WEB-INF/logs/app.log"
+                     filePattern="WEB-INF/logs/$${date:yyyy-MM}/app-%d{yyyy-MM-dd}-%i.log">
+            <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %-5level %l - %msg%n">
+            </PatternLayout>
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="1"/>
+                <SizeBasedTriggeringPolicy size="250 MB"/>
+            </Policies>
+        </RollingFile>
+    </Appenders>
+    <Loggers>
+        <Logger name="myLearningLog" level="trace" additivity="false">
+            <AppenderRef ref="RollingFile"/>
+        </Logger>
+        <Root level="trace">
+            <AppenderRef ref="Console"/>
+        </Root>
+    </Loggers>
+</Configuration>
